@@ -2,7 +2,7 @@
 
 A simple but powerfull physical units converter for Wox.
 
-* **Home** : https://github.com/gissehel/Wox-UnitConverter
+* **Home** : https://github.com/gissehel/BarLauncher-UnitConverter
 * **Keyword** : `unit`
 
 # Usage by example
