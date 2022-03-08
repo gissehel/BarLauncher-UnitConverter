@@ -6,11 +6,11 @@ using BarLauncher.EasyHelper.Core.Service;
 using BarLauncher.EasyHelper.Service;
 using BarLauncher.UnitConverter.Lib.Core.Service;
 using BarLauncher.UnitConverter.Lib.Service;
-using BarLauncher.EasyHelper.Wox;
+using BarLauncher.EasyHelper.Flow.Launcher;
 
 namespace BarLauncher.UnitConverter
 {
-    public class UnitConverterPlugin : WoxPlugin
+    public class UnitConverterPlugin : FlowLauncherPlugin
     {
         public override IBarLauncherResultFinder PrepareContext()
         {

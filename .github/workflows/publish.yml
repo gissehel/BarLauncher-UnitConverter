@@ -1,0 +1,62 @@
+name: build and publish
+
+on:
+    push:
+        branches:
+            - master
+        tags:
+            - 'v*'
+
+env:
+    SOLUTION_NAME: 'BarLauncher-UnitConverter.sln' # set this to your application's name
+    VERSION: '${{ github.ref_name }}'
+
+jobs:
+    build:
+        name: Build and deploy
+        runs-on: windows-latest
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Get the version (for tags)
+              if: "contains(github.ref, 'refs/tags')"
+              shell: bash
+              run: echo "VERSION_LABEL=${GITHUB_REF#refs/tags/v}" >> "${GITHUB_ENV}"
+
+            - name: Get the version (for branches)
+              if: "!contains(github.ref, 'refs/tags')"
+              shell: bash
+              run: echo "VERSION_LABEL=${GITHUB_REF#refs/heads/}-latest" >> "${GITHUB_ENV}"
+
+            - name: build ${{ env.SOLUTION_NAME }} (Version ${{ env.VERSION_LABEL }})
+              run: |
+                dotnet.exe build ${{ env.SOLUTION_NAME }} -c Release
+                dotnet.exe publish BarLauncher.UnitConverter.Wox/BarLauncher.UnitConverter.Wox.csproj -c Release
+                dotnet.exe publish BarLauncher.UnitConverter.Flow.Launcher/BarLauncher.UnitConverter.Flow.Launcher.csproj -c Release -r win-x64
+
+                cd "BarLauncher.UnitConverter.Wox/bin/Release/net48/publish"
+                7z a -tzip "../../../../../BarLauncher.UnitConverter.Wox-${{ env.VERSION_LABEL }}.wox" "*"
+                cd "../../../../.."
+
+                cd "BarLauncher.UnitConverter.Flow.Launcher/bin/Release/net5.0-windows/win-x64/publish"
+                7z a -tzip "../../../../../../BarLauncher.UnitConverter.Flow.Launcher-${{ env.VERSION_LABEL }}.zip" "*"
+                cd "../../../../../.."
+
+            - name: "Upload Artifacts"
+              uses: actions/upload-artifact@v2
+              with:
+                name: "BarLauncher-WebApp-${{ env.VERSION_LABEL }}"
+                path: |
+                  BarLauncher.UnitConverter.Wox-${{ env.VERSION_LABEL }}.wox
+                  BarLauncher.UnitConverter.Flow.Launcher-${{ env.VERSION_LABEL }}.zip
+
+            - name: "Create release"
+              if: "success() && contains(github.ref, 'refs/tags')"
+              uses: "softprops/action-gh-release@v1"
+              with:
+                  body:
+                  files: |
+                    BarLauncher.UnitConverter.Wox-${{ env.VERSION_LABEL }}.wox
+                    BarLauncher.UnitConverter.Flow.Launcher-${{ env.VERSION_LABEL }}.zip
+                  draft: false
+                  prerelease: false
