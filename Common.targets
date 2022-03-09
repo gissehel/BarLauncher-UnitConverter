@@ -1,7 +1,7 @@
 <Project>
-	<PropertyGroup>
-		<Version>2.0.2</Version>
+    <Import Project="Version.targets" />
+    <PropertyGroup>
         <Authors>gissehel</Authors>
         <Copyright>MIT</Copyright>
-	</PropertyGroup>
+    </PropertyGroup>
 </Project>
