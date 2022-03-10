@@ -18,13 +18,6 @@ namespace BarLauncher.UnitConverter.Test.AllGreen.Helper
 
         public ApplicationStarter ApplicationStarter { get; set; }
 
-
-        private IOutputService _jsonOutputService = new JsonOutputService();
-        private IOutputService JsonOutputService => _jsonOutputService;
-
-        private IOutputService _textOutputService = new TextOutputService();
-        private IOutputService TextOutputService => _textOutputService;
-
         public void OnTestStart()
         {
             ApplicationStarter = new ApplicationStarter();
@@ -34,8 +27,8 @@ namespace BarLauncher.UnitConverter.Test.AllGreen.Helper
         public void OnTestStop()
         {
             var testScriptResult = TestScriptResult as TestScriptResult<UnitConverterContext>;
-            JsonOutputService.Output(testScriptResult, ApplicationStarter.TestPath, testScriptResult.TestScript.Name);
-            TextOutputService.Output(testScriptResult, ApplicationStarter.TestPath, testScriptResult.TestScript.Name);
+            (new JsonOutputService()).Output(testScriptResult, ApplicationStarter.TestPath, testScriptResult.TestScript.Name);
+            (new TextOutputService()).Output(testScriptResult, ApplicationStarter.TestPath, testScriptResult.TestScript.Name);
         }
     }
 }
