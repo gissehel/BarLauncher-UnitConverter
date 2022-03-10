@@ -25,7 +25,9 @@ namespace BarLauncher.UnitConverter.Test.AllGreen.Helper
         public SystemServiceMock SystemService { get; set; }
 
         private string TestName { get; set; }
-        public string TestPath => GetApplicationDataPath();
+
+        private string testPath = null;
+        public string TestPath => testPath ?? (testPath = GetApplicationDataPath());
 
         public void Init(string testName)
         {

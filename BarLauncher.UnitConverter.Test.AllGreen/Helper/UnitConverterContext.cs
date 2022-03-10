@@ -6,6 +6,8 @@ using AllGreen.Lib.DomainModel.ScriptResult;
 using System.IO;
 using System.Text;
 using BarLauncher.EasyHelper;
+using AllGreen.Lib.Core.Engine.Service;
+using AllGreen.Lib.Engine.Service;
 
 namespace BarLauncher.UnitConverter.Test.AllGreen.Helper
 {
@@ -16,6 +18,13 @@ namespace BarLauncher.UnitConverter.Test.AllGreen.Helper
 
         public ApplicationStarter ApplicationStarter { get; set; }
 
+
+        private IOutputService _jsonOutputService = new JsonOutputService();
+        private IOutputService JsonOutputService => _jsonOutputService;
+
+        private IOutputService _textOutputService = new TextOutputService();
+        private IOutputService TextOutputService => _textOutputService;
+
         public void OnTestStart()
         {
             ApplicationStarter = new ApplicationStarter();
@@ -25,11 +34,8 @@ namespace BarLauncher.UnitConverter.Test.AllGreen.Helper
         public void OnTestStop()
         {
             var testScriptResult = TestScriptResult as TestScriptResult<UnitConverterContext>;
-            var path = Path.Combine(ApplicationStarter.TestPath, "{0}.agout".FormatWith(testScriptResult.TestScript.Name));
-            using (var writer = new StreamWriter(path, false, new UTF8Encoding(false)))
-            {
-                writer.Write(testScriptResult.GetPipedName(options: PipedNameOptions.Canonical));
-            }
+            JsonOutputService.Output(testScriptResult, ApplicationStarter.TestPath, testScriptResult.TestScript.Name);
+            TextOutputService.Output(testScriptResult, ApplicationStarter.TestPath, testScriptResult.TestScript.Name);
         }
     }
 }
