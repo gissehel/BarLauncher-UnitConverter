@@ -1,6 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="..\Common.targets" />
-
     <PropertyGroup>
         <TargetFramework>net48</TargetFramework>
     </PropertyGroup>
@@ -18,5 +16,4 @@
     <ItemGroup>
         <ProjectReference Include="..\BarLauncher.UnitConverter.Lib\BarLauncher.UnitConverter.Lib.csproj" />
     </ItemGroup>
-
 </Project>

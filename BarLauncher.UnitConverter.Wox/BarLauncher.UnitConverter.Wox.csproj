@@ -1,6 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="..\Common.targets" />
-
     <PropertyGroup>
         <TargetFramework>net48</TargetFramework>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
@@ -25,9 +23,4 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
-
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-        <DebugSymbols>false</DebugSymbols>
-        <DebugType>None</DebugType>
-    </PropertyGroup>
 </Project>

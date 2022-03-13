@@ -1,6 +1,5 @@
-rm -rf */bin */obj
+rm -rf */bin */obj */build build
 
-dotnet.exe build BarLauncher-UnitConverter.sln
-dotnet.exe publish BarLauncher.UnitConverter.Wox/BarLauncher.UnitConverter.Wox.csproj -c Release
-dotnet.exe publish BarLauncher.UnitConverter.Flow.Launcher/BarLauncher.UnitConverter.Flow.Launcher.csproj -c Release -r win-x64
+dotnet.exe publish BarLauncher.UnitConverter.Wox/BarLauncher.UnitConverter.Wox.csproj -c Debug
+dotnet.exe publish BarLauncher.UnitConverter.Flow.Launcher/BarLauncher.UnitConverter.Flow.Launcher.csproj -c Debug -r win-x64
 
